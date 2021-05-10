@@ -28,7 +28,7 @@ myStocks = my_stocks.items()
 # }
 
 # This is created to hold all of the created tuples for my stocks
-all_stocks = {"stocks" : [],}
+all_stocks = []
 
 # This is creating a tuple for one stock
 CurStock = namedtuple("CurStock", ["symbol", "price", "closing_price", "previous_close_date", "sector", "fifty_day_avg", "twohundred_day_avg"])
@@ -112,9 +112,10 @@ for stock in my_stocks.items() :
 
     curStock = CurStock(symbol = curSymbol, price = curStockPrice, closing_price = curPreviousClose, previous_close_date = curPreviousCloseDate, sector = curStockSector, fifty_day_avg = curStock50DayAvg, twohundred_day_avg = curStock200DayAvg)
     # Add created stock tuple to the collection of all stock tuples
-    all_stocks["stocks"].append(curStock)
+    all_stocks.append(curStock)
     
 print(all_stocks)
+
 # dateList = stocks["stock_previous_close_dates"][0].split("-")
 # stringToDate = date(int(dateList[0]), int(dateList[1]), int(dateList[2]))
 
