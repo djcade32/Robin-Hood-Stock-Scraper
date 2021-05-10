@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "robinhood-webscraper",
+  "private_key_id": "8bb9a1225fbec3798cc45a6c21473351f59f274e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDNNqFlp7Yv9RJx\nMSSTmthchYm+XDTQDOioStYYmuNdy4wBtUg95i2CY+D5IKsWAeSKfeQLwbuoEUZC\n2LhbBeGNPemkiJuqD1UHsep0flwQW8LxjsQpQCY4f9g/e9YiFyBaCqHN2RzcaWGz\nf6+nDPbQOV1uaIBCkGVrRTBnmZPjriR/adFJVYDpqi5knO6qOb69HTMfkBr9SuWU\nEnnPCjY4M1G1QpS2+3ymGz8N/JK9pjery9y4/mWN/4Ovnk9tcquxH5q/dvPQ0dR8\nkapGTnqL8IsQcMPs7Ps3LRD7jT+yJ29l9VoekM/Ca23PWXuLWYpJQ9WxS/+Raece\nm47wCmIhAgMBAAECggEAEOGj3NAzX1YWhou/ocnc7x2II4oDyTKqp/+CBcOmHRbr\nxU8zqm3nRADx5qSelmCg+5iYHDR7eruzDzgzUD+XWq5jbEbVoWOB//BNpHgpnCnk\nS0lOj0Mo8cBomm5WQvcqkOWrglrQMjyUDjdcjI43NpFlg3nixTcKNM0cCoW6ggHx\nRuM2VLgmEvxJsJd96Hi3wys5pamnJ/0aRTqn6MRdML2kdt8RSlbI793b8SzIU/04\nfjG/nUVY35VhmkUP58wdkAvx5RckcIU363kGlT4jDQrNe/WCwG5Mm+m6w2hBC8Jc\nAOVBwsK+e0XDujTnAKPd4vEIcGiDGTLTQZafAHdtcQKBgQD4dAOynPet3gloVpeM\n1o9OQy9AkDZ6uhYGdUkO/COU3QL+VHPIFncyf1OuDIOLMQRZw/rW+82nq3swHbwo\nky3AZcduWT7aukXT8hBmSZhrMgCdf84YoFdpTeqXFCuBQopr4XhcmVqtXEwtahVT\nG1xVruNU2ZhF2lITXIxyI4GPqQKBgQDTcmGQFL/7/opvkVec+Gab1bqsUvWh8QXH\nTY/3bbwA1JQdvnIH7XMfcakB6PjYaIGaICtAc9c9H1gZCckSW6ChQi35eHyp+pU9\nm9PTixgsJF61LUA8Zvik6B2n05qPpsJP5VgNS9OOpovxd1Dlx39AgcitgSDnTVNH\nnLHWStupuQKBgQDwmCgchzSyAhpKF9CaagxMVXMkqoKXRiyeBGXDRRePyJZlg5K7\naEX1eKeoHCYmXElCRC5ckWsNu1mHtsPG5v+fGPCPQ41Ccq+8FuUaqJoY9Er0Ohdy\ncZM0Pme19apLegxhe+36feb5ii+aqugLmqtHrhwmxrBWtJxWc4Dt5sRIQQKBgQCH\nIiawClLYHckjnGO98hLBrUpsL2jEYmErCqrjmsH4VeODTt9ZqatVgTJeAiJnTALo\nGX8K5f29FncbKWHT1bNG3CC9uv8RMxCGGzy5ib+dFnFgoNbYw4ZM/ftV8qpo/E5a\n+VvYw4klNdNiMrsE3wa4lzlFia0ZphV/Qul05sqUIQKBgCePA1Yx5f9xVfsJu+9z\nF5Wi8QgD/wWPu1LhNEafjz+6FBGs+cQuCWArgfBhMzoju6Xjnx+JLSzlKxJUjcvJ\ndFj1XkV2Z69Li4OG1yGs8mPDhQDAJTaovazvdd92VEeKO7epg0jQVKSGND7IgCgz\n1zZmESr+MtjQpyvlWynQ0kOZ\n-----END PRIVATE KEY-----\n",
+  "client_email": "googl-sheets-admin@robinhood-webscraper.iam.gserviceaccount.com",
+  "client_id": "105190789321675536927",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/googl-sheets-admin%40robinhood-webscraper.iam.gserviceaccount.com"
+}
