@@ -1,45 +1,3 @@
-# from googleapiclient.discovery import build
-# from google.auth.transport.requests import Request
-# from google.oauth2.credentials import Credentials
-
-# from google.oauth2 import service_account
-
-
-
-# SERVICE_ACCOUNT_FILE = 'robinhood-webscraper-key.json'
-# # If modifying these scopes, delete the file token.json.
-# SCOPES = ['https://www.googleapis.com/auth/spreadsheetsx']
-
-# creds = None
-# creds = service_account.Credentials.from_service_account_file(
-#         SERVICE_ACCOUNT_FILE, scopes=SCOPES)
-
-
-
-# # The ID and range of a sample spreadsheet.
-# SAMPLE_SPREADSHEET_ID = '1Xwj9NncIAYKxUUaKfbr3xKfjJ30TME_MCZOzZkU4TSo'
-
-
-    
-
-
-# service = build('sheets', 'v4', credentials=creds)
-
-# # Call the Sheets API
-# sheet = service.spreadsheets()
-# result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
-#                             range="Sheet1!A1:C4").execute()
-# # values = result.get('values', [])
-# print(result)
-
-# # if not values:
-# #     print('No data found.')
-# # else:
-# #     print('Name, Major:')
-# #     for row in values:
-# #         # Print columns A and E, which correspond to indices 0 and 4.
-# #         print('%s, %s' % (row[0], row[4]))
-
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -54,4 +12,15 @@ sheet = client.open("Robinhood-Webscraper").sheet1
 
 data = sheet.get_all_records()
 
-print(data)
+row = sheet.row_values(3)
+col = sheet.col_values(2)
+cell = sheet.cell(1,2).value
+
+# insertRow = ["hello", 5, "red", "blue"]
+# sheet.insert_row(insertRow, 4)
+# sheet.delete_row(4)
+# sheet.update_cell(2, 2, "Changed")
+
+numRows = len(data)
+
+print(numRows)
