@@ -9,13 +9,23 @@ from collections import namedtuple
 import GetStockInfo
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import yaml
+
+# Get neccessary credentials
+conf = yaml.load(open('credentials.yml'), Loader=yaml.FullLoader)
+email = conf['user']['email']
+pwd = conf['user']['password']
+key = conf['user']['key']
 
 
 today = date.today()
 
-# Login into Robinhood
-totp = pyotp.TOTP("BLH73Y7M3POSRSAJ").now()
-login = rb.login("norman_cade32@yahoo.com","Panthers32", mfa_code=totp)
+try :
+    # Login into Robinhood
+    totp = pyotp.TOTP(key).now()
+    login = rb.login(email, pwd, mfa_code=totp)
+except :
+    print("Error logging into to Robinhood")
 
 myStocks = GetStockInfo.build_portfolio()
 collected_stock_info = GetStockInfo.collect_stock_info(myStocks)
