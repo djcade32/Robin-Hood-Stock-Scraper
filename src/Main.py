@@ -1,14 +1,6 @@
 import robin_stocks.robinhood as rb
 import pyotp
-import sys
-from datetime import date
-from datetime import datetime
-import requests
-from bs4 import BeautifulSoup
-from collections import namedtuple
 import GetStockInfo
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 import GoogleSheetsRead
 import yaml
 
@@ -19,7 +11,6 @@ pwd = conf['user']['password']
 key = conf['user']['key']
 
 def main():
-    today = date.today()
 
     try :
         # Login into Robinhood
@@ -37,11 +28,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# dateList = stocks["stock_previous_close_dates"][0].split("-")
-# stringToDate = date(int(dateList[0]), int(dateList[1]), int(dateList[2]))
-
-# if stringToDate < today :
-#     print(True)
-# else :
-#     print(False)
     

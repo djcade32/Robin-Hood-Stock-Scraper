@@ -1,4 +1,4 @@
-The following packages need to be installed using pip through command line :
+The following packages need to be installed using "pip install -r requirements.txt" through command line:
     - robin_stocks
     - beautifulsoup4
     - gspread

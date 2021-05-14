@@ -1,8 +1,4 @@
 import robin_stocks.robinhood as rb
-import pyotp
-import sys
-from datetime import date
-from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from collections import namedtuple
@@ -52,22 +48,6 @@ def collect_stock_info (myStocks) :
             curStock50DayAvg = float(prevTd.find_next("td").text)
             prevTd = soup.find("td", string = "200-Day Moving Average")
             curStock200DayAvg = float(prevTd.find_next("td").text)
-
-        # if curStock50DayAvg != "none" :
-        #     if curStock50DayAvg > curStockPrice :
-        #         print("Below 50 Day Avg")
-        #     else :
-        #         print("Above 50 Day Avg")
-        # else :
-        #     print("none")
-
-        # if curStock200DayAvg != "none" :
-        #     if curStock200DayAvg > curStockPrice :
-        #         print("Below 200 Day Avg")
-        #     else :
-        #         print("Above 200 Day Avg")
-        # else :
-        #     print("none")
 
         curStock = CurStock(symbol = curSymbol, price = curStockPrice, closing_price = curPreviousClose, previous_close_date = curPreviousCloseDate, sector = curStockSector, fifty_day_avg = curStock50DayAvg, twohundred_day_avg = curStock200DayAvg)
         
