@@ -17,12 +17,11 @@ def main():
         totp = pyotp.TOTP(key).now()
         login = rb.login(email, pwd, mfa_code=totp)
     except :
-        print("Error logging into to Robinhood")
+        print("Error: Cannot log into to Robinhood")
 
     myStocks = GetStockInfo.build_portfolio()
     collected_stock_info = GetStockInfo.collect_stock_info(myStocks)
-    sheet = GoogleSheetsRead.open_worksheet("Robinhood-Webscraper")
-    GoogleSheetsRead.populate_table(sheet, collected_stock_info)
+    GoogleSheetsRead.populate_table(r"C:\Users\Dj\Desktop\Robinhood-Webscraper.xlsx", collected_stock_info)
 
 
 if __name__ == "__main__":
