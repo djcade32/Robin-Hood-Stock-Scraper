@@ -1,5 +1,6 @@
 from openpyxl import load_workbook
-from openpyxl.styles import PatternFill
+from openpyxl.styles import Font
+from collections import Counter
 
 # Format rule for currency
 FORMAT_CURRENCY_USD_SIMPLE = '"$"#,##0.00_-'
@@ -11,14 +12,19 @@ def populate_table (workbookPath, collected_stock_info) :
     try :
         wb = load_workbook(workbookPath)
         ws = wb.active
-    except :
+    except Exception as ex:
         print("Error: Cannot open workbook")
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        print(message)
     # Clearing the sheet
     startRowNum = 2
     amountOfStocks = len(collected_stock_info)
+    listOfSectors = []
     try :
         ws.delete_rows(startRowNum, amountOfStocks  + 1)
         print("Table Cleared")
+        amount_spent_total = 0
 
         for stock in collected_stock_info :
             insertRow = [stock.symbol, 
@@ -31,23 +37,46 @@ def populate_table (workbookPath, collected_stock_info) :
                         stock.fifty_day_avg, 
                         stock.twohundred_day_avg
                         ]
+            listOfSectors.append(stock.sector)
+            amount_spent_total = amount_spent_total + stock.amount_spent
             ws.append(insertRow)
             _pick_cell_color(startRowNum, len(insertRow), stock, ws)
             startRowNum = startRowNum + 1
+
+        ws["E" + str(amountOfStocks + 3)] = "Total"
+        ws["E" + str(amountOfStocks + 3)].font = Font(bold=True)
+        ws["F" + str(amountOfStocks + 3)] = amount_spent_total
+
+        uniqueSectors = _get_unique_sectors(listOfSectors= listOfSectors)
+        _populate_sector_chart(sheet=ws, sectors=uniqueSectors, amountOfStocks=amountOfStocks)
         print("Rows updated")
 
         # Format range of cells to be currency
-        range1 = ws["C2" : "D" + str(len(collected_stock_info) + 1)]
-        range2 = ws["F2" : "I" + str(len(collected_stock_info) + 1)]
+        range1 = ws["C2" : "D" + str(amountOfStocks + 1)]
+        range2 = ws["F2" : "I" + str(amountOfStocks + 3)]
         _format_cells(range1, format=FORMAT_CURRENCY_USD_SIMPLE)
         _format_cells(range2, format=FORMAT_CURRENCY_USD_SIMPLE)
     
         wb.save(r"C:\Users\Dj\Desktop\Robinhood-Webscraper.xlsx")
-    except :
+    except Exception as ex :
         print("Error: Cannot populate table")
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        print(message)
+        if(ex == "PermissionError") :
+            print("Make sure excel sheet is closed before running program")
 
 
 # ------------ Helper Functions ---------------
+
+def _get_unique_sectors(listOfSectors) :
+    return Counter(listOfSectors).keys()
+
+def _populate_sector_chart(sheet, sectors, amountOfStocks) :
+    sheet.cell(row= amountOfStocks + 5, column= 7, value= "Sector").font = Font(bold=True)
+    sheet.cell(row= amountOfStocks + 5, column= 8, value= "Stocks In Each Sector").font = Font(bold=True)
+    sheet.cell(row= amountOfStocks + 5, column= 9, value= "Shares In Each Sector").font = Font(bold=True)
+
 
 # Formats the given range of cells with the given format rule
 def _format_cells(range, format) :

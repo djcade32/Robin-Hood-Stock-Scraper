@@ -58,6 +58,7 @@ def collect_stock_info (myStocks) :
             prevTd = soup.find("td", string = "200-day Simple Moving Average:")
             curStock200DayAvg = float(prevTd.find_next_sibling("td").text)
         except :
+            print("Could not find using financhill website. Trying stockanalysis website")
             headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
             html = "https://stockanalysis.com/stocks/" + curSymbol + "/statistics/"
             html_text = requests.get(html, headers = headers)

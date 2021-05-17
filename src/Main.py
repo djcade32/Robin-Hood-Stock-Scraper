@@ -16,8 +16,11 @@ def main():
         # Login into Robinhood
         totp = pyotp.TOTP(key).now()
         login = rb.login(email, pwd, mfa_code=totp)
-    except :
+    except Exception as ex :
         print("Error: Cannot log into to Robinhood")
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        print(message)
 
     myStocks = GetStockInfo.build_portfolio()
     collected_stock_info = GetStockInfo.collect_stock_info(myStocks)
