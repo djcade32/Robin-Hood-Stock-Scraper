@@ -24,7 +24,8 @@ def main():
 
     myStocks = GetStockInfo.build_portfolio()
     collected_stock_info = GetStockInfo.collect_stock_info(myStocks)
-    GoogleSheetsRead.populate_table(r"C:\Users\Dj\Desktop\Robinhood-Webscraper.xlsx", collected_stock_info)
+    GoogleSheetsRead.populate_table(r"/Users/normancade/Desktop/Robinhood-Webscraper.xlsx", collected_stock_info)
+    # GoogleSheetsRead.populate_table(r"C:\Users\Dj\Desktop\Robinhood-Webscraper.xlsx", collected_stock_info)
 
 
 if __name__ == "__main__":

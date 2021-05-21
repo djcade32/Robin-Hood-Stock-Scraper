@@ -28,6 +28,18 @@ def populate_table (workbookPath, collected_stock_info) :
         message = template.format(type(ex).__name__, ex.args)
         print(message)
 
+    
+    titles = ["Symbol", 
+            "Sector", 
+            "Price", 
+            "Avg Cost", 
+            "Number of Shares", 
+            "Amount Spent", 
+            "Closing Price", 
+            "50-Day Moving Avg", 
+            "200-Day Moving Avg"
+            ]
+    ws.append(titles)
     # Clearing the sheet
     startRowNum = 2
     amountOfStocks = len(collected_stock_info)
@@ -75,7 +87,8 @@ def populate_table (workbookPath, collected_stock_info) :
         if(ex == "PermissionError") :
             print("Make sure excel sheet is closed before running program")
     finally :
-        wb.save(r"C:\Users\Dj\Desktop\Robinhood-Webscraper.xlsx")
+        wb.save(r"/Users/normancade/Desktop/Robinhood-Webscraper.xlsx")
+        # wb.save(r"C:\Users\Dj\Desktop\Robinhood-Webscraper.xlsx")
 
 
 # ------------ Helper Functions ---------------

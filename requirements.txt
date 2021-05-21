@@ -2,5 +2,6 @@ beautifulsoup4==4.9.3
 keyring==23.0.1
 openpyxl==3.0.7
 pyasn1-modules==0.2.8
+PyYAML==5.4.1
 robin-stocks==2.0.3
 yml==0.0.1
