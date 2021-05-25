@@ -1,10 +1,8 @@
 from typing import Dict
 from openpyxl import load_workbook
-from openpyxl.styles import Font, Border, Side
+from openpyxl.styles import Font, Border, Side, PatternFill
 from collections import Counter
 import robin_stocks.robinhood as rb
-
-
 from openpyxl.styles.borders import BORDER_THIN
 
 
@@ -12,13 +10,16 @@ from openpyxl.styles.borders import BORDER_THIN
 FORMAT_CURRENCY_USD_SIMPLE = '"$"#,##0.00_-'
 NUMBER_WITH_DECIMAL = '#,##0.00'
 
-
+# Format for thin border around cells
 BORDER_FORMAT = Border(top = Side(border_style='thin', color='FF000000'),    
                               right = Side(border_style='thin', color='FF000000'), 
                               bottom = Side(border_style='thin', color='FF000000'),
                               left = Side(border_style='thin', color='FF000000'))
+# Format to change title cell color to blue
+TITLE_COLOR_BLUE = PatternFill(start_color='2a84fa',
+                   end_color='2a84fa',
+                   fill_type='solid')
 
-    
 # This populates the given google sheet with the given stock info
 def populate_table (workbookPath, collected_stock_info) :
     # Loading workbook and making first sheet active
@@ -32,7 +33,15 @@ def populate_table (workbookPath, collected_stock_info) :
         print(message)
 
     
-    titles = ["Symbol", 
+    # Clearing the sheet
+    startRowNum = 1
+    amountOfStocks = len(collected_stock_info)
+    listOfSectors = []
+    try :
+        ws.delete_rows(startRowNum, 1000)
+        print("Table Cleared")
+
+        titles = ["Symbol", 
             "Sector", 
             "Price", 
             "Avg Cost", 
@@ -42,14 +51,9 @@ def populate_table (workbookPath, collected_stock_info) :
             "50-Day Moving Avg", 
             "200-Day Moving Avg"
             ]
-    ws.append(titles)
-    # Clearing the sheet
-    startRowNum = 2
-    amountOfStocks = len(collected_stock_info)
-    listOfSectors = []
-    try :
-        ws.delete_rows(startRowNum, 1000)
-        print("Table Cleared")
+        _create_titles(sheet=ws, titles=titles, color=TITLE_COLOR_BLUE)
+        print("Titles appended")
+
         amount_spent_total = 0
 
         for stock in collected_stock_info :
@@ -66,22 +70,14 @@ def populate_table (workbookPath, collected_stock_info) :
             listOfSectors.append(stock.sector)
             amount_spent_total = amount_spent_total + stock.amount_spent
             ws.append(insertRow)
-            _pick_cell_color(startRowNum, len(insertRow), stock, ws)
+            _pick_cell_color(startRowNum + 1, len(insertRow), stock, ws)
             startRowNum = startRowNum + 1
+
         portfolio_equity = float(rb.account.load_phoenix_account(info="portfolio_equity")["amount"])
-        ws["E" + str(amountOfStocks + 3)] = "Total Amount Spent"
-        ws["E" + str(amountOfStocks + 3)].font = Font(bold=True)
-        ws["F" + str(amountOfStocks + 3)] = amount_spent_total
-
-        ws["E" + str(amountOfStocks + 4)] = "Total Portfolio Equity"
-        ws["E" + str(amountOfStocks + 4)].font = Font(bold=True)
-        ws["F" + str(amountOfStocks + 4)] = portfolio_equity
-
-        ws["E" + str(amountOfStocks + 5)] = "Profit"
-        ws["E" + str(amountOfStocks + 5)].font = Font(bold=True)
-        ws["F" + str(amountOfStocks + 5)] = portfolio_equity - amount_spent_total
+        _create_statistic(sheet=ws, cell="E" + str(amountOfStocks + 3), cellStatistic="F" + str(amountOfStocks + 3), title="Total Amount Spent", statistic=amount_spent_total)
+        _create_statistic(sheet=ws, cell="E" + str(amountOfStocks + 4), cellStatistic="F" + str(amountOfStocks + 4), title="Total Portfolio Equity", statistic=portfolio_equity)
+        _create_statistic(sheet=ws, cell="E" + str(amountOfStocks + 5), cellStatistic="F" + str(amountOfStocks + 5), title="Profit", statistic=portfolio_equity - amount_spent_total)
         ws["F" + str(amountOfStocks + 5)].style = "Good"
-        
         _populate_sector_chart(sheet=ws, sectors=listOfSectors, amountOfStocks=amountOfStocks)
         print("Rows updated")
 
@@ -106,6 +102,19 @@ def populate_table (workbookPath, collected_stock_info) :
 
 # ------------ Helper Functions ---------------
 
+def _create_titles(sheet, titles, color) :
+    sheet.append(titles)
+    for col in range(1, len(titles) + 1) :
+        sheet.cell(row=1, column=col).fill = color
+        sheet.cell(row=1, column=col).font = Font(bold=True)
+
+# Creates the total statistics at the bottom of the charts
+def _create_statistic(sheet, cell, cellStatistic, title, statistic) :
+    sheet[cell] = title
+    sheet[cell].font = Font(bold=True)
+    sheet[cellStatistic] = statistic
+
+# Creates the sector chart
 def _populate_sector_chart(sheet, sectors, amountOfStocks) :
     dictSector = Counter(sectors)
     rowNum = amountOfStocks + 7
@@ -134,6 +143,7 @@ def _populate_sector_chart(sheet, sectors, amountOfStocks) :
     sheet["G" + str(i + 2)].font = Font(bold=True)
     sheet.cell(row= i + 2, column= 8, value= '=SUM(I27:I34)').number_format = NUMBER_WITH_DECIMAL
 
+# Put thin border around specified range of cells
 def _border_cells(range) :
     for cellTuple in range :
         for cell in cellTuple :
