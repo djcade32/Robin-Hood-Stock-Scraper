@@ -4,6 +4,7 @@ from openpyxl.styles import Font, Border, Side, PatternFill
 from collections import Counter
 import robin_stocks.robinhood as rb
 from openpyxl.styles.borders import BORDER_THIN
+import CreatePieCharts
 
 
 # Format rule for currency
@@ -20,6 +21,8 @@ TITLE_COLOR_BLUE = PatternFill(start_color='2a84fa',
                    end_color='2a84fa',
                    fill_type='solid')
 
+COLUMN_WIDTHS = [10, 10, 10, 10, 10, 10, 10, 10, 10]
+
 # This populates the given google sheet with the given stock info
 def populate_table (workbookPath, collected_stock_info) :
     # Loading workbook and making first sheet active
@@ -32,14 +35,16 @@ def populate_table (workbookPath, collected_stock_info) :
         message = template.format(type(ex).__name__, ex.args)
         print(message)
 
-    
     # Clearing the sheet
     startRowNum = 1
     amountOfStocks = len(collected_stock_info)
     listOfSectors = []
     try :
-        ws.delete_rows(startRowNum, 1000)
-        print("Table Cleared")
+        # ws.delete_rows(startRowNum, 1000)
+        wb.remove(worksheet=wb[wb.active.title])
+        wb.create_sheet("Overview")
+        ws = wb.active
+        print("Old sheet deleted and new sheet")
 
         titles = ["Symbol", 
             "Sector", 
@@ -52,6 +57,12 @@ def populate_table (workbookPath, collected_stock_info) :
             "200-Day Moving Avg"
             ]
         _create_titles(sheet=ws, titles=titles, color=TITLE_COLOR_BLUE)
+        ws.column_dimensions["B"].width = 20
+        ws.column_dimensions["E"].width = 20
+        ws.column_dimensions["F"].width = 20
+        ws.column_dimensions["G"].width = 20
+        ws.column_dimensions["H"].width = 20
+        ws.column_dimensions["I"].width = 20
         print("Titles appended")
 
         amount_spent_total = 0
@@ -88,6 +99,9 @@ def populate_table (workbookPath, collected_stock_info) :
         _format_cells(range3, format=NUMBER_WITH_DECIMAL)
         _format_cells(range1, format=FORMAT_CURRENCY_USD_SIMPLE)
         _format_cells(range2, format=FORMAT_CURRENCY_USD_SIMPLE)
+
+        CreatePieCharts.create_pie_chart(sheet=ws, numOfStocks=amountOfStocks, sectors=listOfSectors)
+        print("Charts created")
     except Exception as ex :
         print("Error: Cannot populate table")
         ws.delete_rows(startRowNum, 1000)
