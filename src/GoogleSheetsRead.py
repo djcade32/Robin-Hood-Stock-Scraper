@@ -40,7 +40,6 @@ def populate_table (workbookPath, collected_stock_info) :
     amountOfStocks = len(collected_stock_info)
     listOfSectors = []
     try :
-        # ws.delete_rows(startRowNum, 1000)
         wb.remove(worksheet=wb[wb.active.title])
         wb.create_sheet("Overview")
         ws = wb.active
@@ -104,7 +103,9 @@ def populate_table (workbookPath, collected_stock_info) :
         print("Charts created")
     except Exception as ex :
         print("Error: Cannot populate table")
-        ws.delete_rows(startRowNum, 1000)
+        wb.remove(worksheet=wb[wb.active.title])
+        wb.create_sheet("Overview")
+        ws = wb.active
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         message = template.format(type(ex).__name__, ex.args)
         print(message)
